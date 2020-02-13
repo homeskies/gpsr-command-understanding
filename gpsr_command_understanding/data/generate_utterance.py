@@ -1,11 +1,11 @@
 import os
 from os.path import join
 
-from gpsr_command_understanding.generator import Generator
-from gpsr_command_understanding.grammar import tree_printer
-from gpsr_command_understanding.loading_helpers import load_all_2018_by_cat
-from gpsr_command_understanding.tokens import ROOT_SYMBOL
-from gpsr_command_understanding.generation import generate_random_pair
+from .generator import Generator
+from .grammar import tree_printer
+from .loading_helpers import load_all_2018_by_cat
+from .tokens import ROOT_SYMBOL
+from .generation import generate_random_pair
 
 import random
 

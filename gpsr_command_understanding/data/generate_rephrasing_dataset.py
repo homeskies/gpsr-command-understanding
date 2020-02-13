@@ -2,10 +2,10 @@ import os
 import random
 import csv
 
-from gpsr_command_understanding.generator import Generator, get_grounding_per_each_parse
-from gpsr_command_understanding.grammar import tree_printer
-from gpsr_command_understanding.loading_helpers import load_all_2018_by_cat
-from gpsr_command_understanding.util import chunker
+from .generator import Generator, get_grounding_per_each_parse
+from .grammar import tree_printer
+from .loading_helpers import load_all_2018_by_cat
+from .util import chunker
 
 seed = 0
 rehprasings_per_hit = 12

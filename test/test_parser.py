@@ -6,14 +6,14 @@ import unittest
 
 from lark import exceptions
 
-from gpsr_command_understanding.generation import generate_sentences, generate_sentence_parse_pairs
-from gpsr_command_understanding.generator import Generator
-from gpsr_command_understanding.grammar import tree_printer
-from gpsr_command_understanding.loading_helpers import load_all_2019, \
+from .generation import generate_sentences, generate_sentence_parse_pairs
+from .generator import Generator
+from .grammar import tree_printer
+from .loading_helpers import load_all_2019, \
     load_all_2018, load_entities_from_xml
-from gpsr_command_understanding.parser import GrammarBasedParser, AnonymizingParser, KNearestNeighborParser
-from gpsr_command_understanding.anonymizer import Anonymizer, NumberingAnonymizer
-from gpsr_command_understanding.tokens import ROOT_SYMBOL
+from .parser import GrammarBasedParser, AnonymizingParser, KNearestNeighborParser
+from .anonymizer import Anonymizer, NumberingAnonymizer
+from .tokens import ROOT_SYMBOL
 
 GRAMMAR_DIR = os.path.abspath(os.path.dirname(__file__) + "/../resources/generator2019")
 FIXTURE_DIR = os.path.join(os.path.dirname(__file__), "fixtures")

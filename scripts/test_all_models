@@ -64,7 +64,7 @@ if [[ ${use_cpu} = "true" ]]; then
     gpu_arg=""
 fi
 
-python -m gpsr_command_understanding.data.evaluate_baseline_parsers ${data_root_path}/train.txt ${data_root_path}/val.txt ${data_root_path}/test.txt > ${results_path}/baselines.txt
+python -m .data.evaluate_baseline_parsers ${data_root_path}/train.txt ${data_root_path}/val.txt ${data_root_path}/test.txt > ${results_path}/baselines.txt
 for dir in $results_dirs; do
     if [[ ! -d $dir ]]; then
         continue

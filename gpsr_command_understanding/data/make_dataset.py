@@ -1,7 +1,7 @@
 import sys
 from os.path import join
 
-from gpsr_command_understanding.anonymizer import Anonymizer
+from .anonymizer import Anonymizer
 
 import itertools
 import operator
@@ -14,11 +14,11 @@ from collections import Counter
 import lark
 import more_itertools
 
-from gpsr_command_understanding.generation import pairs_without_placeholders
-from gpsr_command_understanding.generator import Generator, get_grounding_per_each_parse_by_cat
-from gpsr_command_understanding.grammar import tree_printer
-from gpsr_command_understanding.loading_helpers import load_all_2018_by_cat, load_entities_from_xml
-from gpsr_command_understanding.util import determine_unique_cat_data, save_data, flatten, merge_dicts, \
+from .generation import pairs_without_placeholders
+from .generator import Generator, get_grounding_per_each_parse_by_cat
+from .grammar import tree_printer
+from .loading_helpers import load_all_2018_by_cat, load_entities_from_xml
+from .util import determine_unique_cat_data, save_data, flatten, merge_dicts, \
     get_pairs_by_cats
 
 EPS = 0.00001

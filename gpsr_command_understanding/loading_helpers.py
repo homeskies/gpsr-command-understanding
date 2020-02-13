@@ -2,8 +2,8 @@ from os.path import join
 
 from lark import Tree
 
-from gpsr_command_understanding.tokens import WildCard
-from gpsr_command_understanding.xml_parsers import ObjectParser, LocationParser, NameParser, GesturesParser
+from .tokens import WildCard
+from .xml_parsers import ObjectParser, LocationParser, NameParser, GesturesParser
 
 
 def load_entities_from_xml(objects_xml_file, locations_xml_file, names_xml_file, gestures_xml_file):

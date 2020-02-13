@@ -6,9 +6,9 @@ import editdistance
 import lark
 from lark import Transformer, Lark, Tree
 
-from gpsr_command_understanding.grammar import DiscardVoid
-from gpsr_command_understanding.tokens import NonTerminal, WildCard
-from gpsr_command_understanding.util import get_wildcards
+from .grammar import DiscardVoid
+from .tokens import NonTerminal, WildCard
+from .util import get_wildcards
 
 from queue import PriorityQueue
 

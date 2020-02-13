@@ -4,13 +4,13 @@ import os
 import sys
 import editdistance
 
-from gpsr_command_understanding.generator import Generator
+from .generator import Generator
 
-from gpsr_command_understanding.loading_helpers import load_all_2018
-from gpsr_command_understanding.models.noop_tokenizer import NoOpTokenizer
-from gpsr_command_understanding.models.seq2seq_data_reader import Seq2SeqDatasetReader
-from gpsr_command_understanding.parser import AnonymizingParser, KNearestNeighborParser, GrammarBasedParser
-from gpsr_command_understanding.anonymizer import Anonymizer
+from .loading_helpers import load_all_2018
+from .models.noop_tokenizer import NoOpTokenizer
+from .models.seq2seq_data_reader import Seq2SeqDatasetReader
+from .parser import AnonymizingParser, KNearestNeighborParser, GrammarBasedParser
+from .anonymizer import Anonymizer
 from nltk.metrics.distance import edit_distance, jaccard_distance
 
 GRAMMAR_DIR = os.path.abspath(os.path.dirname(__file__) + "/../../resources/generator2018")
