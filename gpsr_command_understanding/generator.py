@@ -71,7 +71,7 @@ class Generator:
         production_rules = {}
         for grammar_file_path in grammar_file_paths:
             # TODO: Figure out why generator files have a byte order mark (BOM)
-            with open(grammar_file_path, encoding="utf-8-sig") as f:
+            with open(grammar_file_path) as f:
                 for line in f:
                     line = line.strip()
                     # parse into possible productions
