@@ -24,6 +24,7 @@ class ObjectParser:
         return all_categories
 
     '''return dictionary mapping categories to items'''
+
     def get_categories(self):
         #parse xml
         tree = ET.parse(self.object_file)
@@ -32,11 +33,11 @@ class ObjectParser:
 
         categories = {}
         for cat in root.findall("./category"):
-             cat_name = cat.attrib['name'].lower()
-             cat_objs = []
-             for obj in cat:
-                 cat_objs.append(obj.attrib['name'].lower()) 
-             categories[cat_name] = cat_objs
+            cat_name = cat.attrib['name'].lower()
+            cat_objs = []
+            for obj in cat:
+                cat_objs.append(obj.attrib['name'].lower())
+            categories[cat_name] = cat_objs
         return categories
 
     def get_object_color(self, object_name):
@@ -56,11 +57,13 @@ class LocationParser(object):
         self.tree = ET.parse(self.location_file)
 
     '''return dictionary of room:location_list'''
+
     def get_room_locations(self):
         room_locations = {}
         #get root (rooms in this case)
         root = self.tree.getroot()
-        #for each room in rooms check if it has child with name equal to location_obj
+        # for each room in rooms check if it has child with name equal to
+        # location_obj
         for room in root.findall("./room"):
             location_list = []
             room_name = room.attrib['name'].lower()

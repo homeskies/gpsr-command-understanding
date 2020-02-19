@@ -1,5 +1,6 @@
 import sys
 
+
 def main():
 
     f_in = open(sys.argv[1], 'r')
@@ -13,7 +14,8 @@ def main():
         line = line.replace(",", " ,")
         line = line.replace(". ", " . ")
         sentence_tokens = line.split(" ")
-        sentence_str = " ".ljust(17) + " ".join(token.ljust(16) for token in sentence_tokens)
+        sentence_str = " ".ljust(17) + " ".join(token.ljust(16) for token in
+            sentence_tokens)
         f_out.write(sentence_str + "\n")
 
         line = f_in.readline()

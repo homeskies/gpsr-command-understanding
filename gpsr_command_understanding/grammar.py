@@ -12,11 +12,14 @@ class TypeConverter(Transformer):
     Tree post-processor which takes Lark grammar rules as hints to wrap up
     special types of terminals
     """
+
     def bare_choice(self, children):
         return Tree("choice", children)
+
     def top_expression(self, children):
         # Bake the top expression down
-        if len(children) == 1 and isinstance(children[0], Tree) and children[0].data == "expression":
+        if len(children) == 1 and isinstance(children[0], Tree) and children[0
+            ].data == "expression":
             return children[0]
         return Tree("expression", children)
 
@@ -34,13 +37,13 @@ class TypeConverter(Transformer):
                 type = "known"
             return WildCard("object", type, extra)
         elif "loc" in typed.data:
-            # the type token (e.g. placement) is elided from the tree, so the extra
-            # will be the only element in this list
+            # the type token (e.g. placement) is elided from the tree, so the
+            # extra will be the only element in this list
             extra = typed.children[0] if len(typed.children) > 0 else None
             if "beacon" in typed.data:
                 type = "beacon"
             elif "placement" in typed.data:
-                type ="placement"
+                type = "placement"
             elif "room" in typed.data:
                 type = "room"
             return WildCard("location", type, extra)
@@ -65,8 +68,10 @@ class DiscardVoid(Visitor):
     """
     Throw away generator annotations meant for the referee
     """
+
     def expression(self, tree):
-        tree.children = list(filter(lambda x: not ((isinstance(x, WildCard) or isinstance(x, Anonymized)) and x.name == "void"), tree.children))
+        tree.children = list(filter(lambda x: not ((isinstance(x, WildCard) or
+            isinstance(x, Anonymized)) and x.name == "void"), tree.children))
 
 
 class ToString(Transformer):
@@ -97,7 +102,7 @@ class ToString(Transformer):
         for i, child in enumerate(children):
             if isinstance(child, str) and child[0] == "\"" and child[1] != " ":
                 children[i] = "\" " + child[1:-1] + " \""
-        return "( {} )".format(" ".join(map(str,children)))
+        return "( {} )".format(" ".join(map(str, children)))
 
     def slot_pred(self, children):
         output = ""
@@ -120,14 +125,13 @@ class ToString(Transformer):
         return output.strip()
 
     def lambda_abs(self, children):
-        return "( lambda {} )".format(" ".join(map(str,children)))
+        return "( lambda {} )".format(" ".join(map(str, children)))
 
     def constant_placeholder(self, children):
         return "\"" + " ".join(children) + "\""
 
     def __call__(self, *args, **kwargs):
-        return self.transform(*args)
-
+        return self.transform( * args)
 
 tree_printer = ToString()
 
@@ -138,6 +142,7 @@ class CombineExpressions(Visitor):
     :param tokens:
     :return: a list of tokens with no adjacent text fragments
     """
+
     def top_expression(self, tree):
         tree.data = "expression"
         self.expression(tree)
@@ -156,7 +161,8 @@ class CombineExpressions(Visitor):
             j = i + 1
             while j < len(tree.children):
                 next_child = tree.children[j]
-                if isinstance(next_child, Tree) and next_child.data == "expression":
+                if (isinstance(next_child, Tree) and next_child.data ==
+                    "expression"):
                     j += 1
                     continue
                 break
@@ -171,7 +177,7 @@ class CombineExpressions(Visitor):
             while i < len(cleaned):
                 child = cleaned[i]
                 if isinstance(child, Tree) and child.data == "expression":
-                    cleaned = cleaned[:i] + child.children + cleaned[i+1:]
+                    cleaned = cleaned[:i] + child.children + cleaned[i + 1:]
                     break
                 i += 1
             all_expanded = True
@@ -197,9 +203,8 @@ def expand_shorthand(tree):
                 choice = subtree
                 break
         if not choice:
-            # All choices expanded!
-            # Choices will make a mess of unnecessarily nested expressions. Clean
-            # up.
+            # All choices expanded! Choices will make a mess of unnecessarily
+            # nested expressions. Clean up.
             combiner.visit(current)
             output.append(current)
             continue
@@ -210,7 +215,9 @@ def expand_shorthand(tree):
             if choice_made_tree == choice:
                 in_progress.append(option)
             else:
-                choice_parent = list(choice_made_tree.find_pred(lambda subtree: any([child == choice for child in subtree.children])))[0]
+                choice_parent = list(choice_made_tree.find_pred(lambda subtree
+                    : any([child == choice for child in subtree.children])))[0
+                    ]
                 replace_child(choice_parent, choice, option, only_once=True)
                 in_progress.append(choice_made_tree)
 

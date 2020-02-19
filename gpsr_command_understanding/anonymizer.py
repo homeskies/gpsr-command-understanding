@@ -3,7 +3,8 @@ from collections import defaultdict
 
 
 class Anonymizer(object):
-    def __init__(self, objects, categories, names, locations, beacons, placements, rooms, gestures):
+    def __init__(self, objects, categories, names, locations, beacons,
+        placements, rooms, gestures):
         self.names = names
         self.categories = categories
         self.locations = locations
@@ -22,8 +23,8 @@ class Anonymizer(object):
         for room in self.rooms:
             replacements[room] = "room"
 
-        # Note they're we're explicitly clumping beacons and placements (which may overlap)
-        # together to make anonymizing/parsing easier.
+        # Note they're we're explicitly clumping beacons and placements (which
+        # may overlap) together to make anonymizing/parsing easier.
         """
         for beacon in self.beacons:
             replacements[beacon] = "location beacon"
@@ -45,7 +46,8 @@ class Anonymizer(object):
         self.pattern = re.compile("\\b(" + "|".join(escaped.keys()) + ")\\b")
 
     def __call__(self, utterance):
-        return self.pattern.sub(lambda m: "<" + self.rep[m.group(0)] + ">", utterance)
+        return self.pattern.sub(lambda m: "<" + self.rep[m.group(0)] + ">",
+            utterance)
 
 
 class NumberingAnonymizer(Anonymizer):
@@ -65,7 +67,8 @@ class NumberingAnonymizer(Anonymizer):
             replacement_type = self.rep[string]
             if type_count[replacement_type] > 1:
                 current_num = num_type_anon_so_far[replacement_type] + 1
-                replacement_string = "<" + self.rep[string] + " " + str(current_num) + ">"
+                replacement_string = "<" + self.rep[string] + " " + str(
+                    current_num) + ">"
                 num_type_anon_so_far[replacement_type] += 1
             else:
                 replacement_string = "<" + self.rep[string] + ">"

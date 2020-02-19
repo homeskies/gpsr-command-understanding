@@ -46,24 +46,35 @@ class Seq2SeqDatasetReader(DatasetReader):
     source_add_start_token : bool, (optional, default=True)
         Whether or not to add `START_SYMBOL` to the beginning of the source sequence.
     """
+
     def __init__(self,
-                 source_tokenizer: Tokenizer = None,
-                 target_tokenizer: Tokenizer = None,
-                 source_token_indexers: Dict[str, TokenIndexer] = None,
-                 target_token_indexers: Dict[str, TokenIndexer] = None,
-                 source_add_start_token: bool = True,
-                 lazy: bool = False) -> None:
+                 source_tokenizer:
+        Tokenizer=None,
+                 target_tokenizer:
+        Tokenizer=None,
+                 source_token_indexers:
+        Dict[str, TokenIndexer]=None,
+                 target_token_indexers:
+        Dict[str, TokenIndexer]=None,
+                 source_add_start_token:
+        bool=True,
+                 lazy:
+        bool=False) -> None:
         super().__init__(lazy)
         self._source_tokenizer = source_tokenizer or WordTokenizer()
-        self._target_tokenizer = target_tokenizer or WordTokenizer(JustSpacesWordSplitter())
-        self._source_token_indexers = source_token_indexers or {"tokens": SingleIdTokenIndexer()}
-        self._target_token_indexers = target_token_indexers or self._source_token_indexers
+        self._target_tokenizer = target_tokenizer or WordTokenizer(
+            JustSpacesWordSplitter())
+        self._source_token_indexers = source_token_indexers or {"tokens":
+            SingleIdTokenIndexer()}
+        self._target_token_indexers = (target_token_indexers or self.
+            _source_token_indexers)
         self._source_add_start_token = source_add_start_token
 
     @overrides
     def _read(self, file_path):
         with open(cached_path(file_path), "r") as data_file:
-            logger.info("Reading instances from lines in file at: %s", file_path)
+            logger.info("Reading instances from lines in file at: %s",
+                file_path)
             line_generator = more_itertools.peekable(enumerate(data_file))
             while line_generator:
                 line_num, line = next(line_generator)
@@ -80,22 +91,27 @@ class Seq2SeqDatasetReader(DatasetReader):
                 yield self.text_to_instance(source_sequence, target_sequence)
 
     @overrides
-    def text_to_instance(self, source_string: str, target_string: str = None) -> Instance:  # type: ignore
+    def text_to_instance(self, source_string:
+        str, target_string:
+        str=None) -> Instance:  # type: ignore
         # pylint: disable=arguments-differ
         tokenized_source = self._source_tokenizer.tokenize(source_string)
         if self._source_add_start_token:
             tokenized_source.insert(0, Token(START_SYMBOL))
         tokenized_source.append(Token(END_SYMBOL))
         source_field = TextField(tokenized_source, self._source_token_indexers)
-        meta_fields = {"source_tokens": [x.text for x in tokenized_source[1:-1]]}
+        meta_fields = {"source_tokens": [x.text for x in tokenized_source[1:-1
+            ]]}
         fields_dict = {"source_tokens": source_field}
         if target_string is not None:
             tokenized_target = self._target_tokenizer.tokenize(target_string)
             tokenized_target.insert(0, Token(START_SYMBOL))
             tokenized_target.append(Token(END_SYMBOL))
-            target_field = TextField(tokenized_target, self._target_token_indexers)
+            target_field = TextField(tokenized_target, self.
+                _target_token_indexers)
             fields_dict["target_tokens"] = target_field
-            meta_fields["target_tokens"] = [y.text for y in tokenized_target[1:-1]]
+            meta_fields["target_tokens"] = [y.text for y in tokenized_target[1
+                :-1]]
         fields_dict["metadata"] = MetadataField(meta_fields)
 
         return Instance(fields_dict)

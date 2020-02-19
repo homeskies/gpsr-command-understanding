@@ -45,7 +45,7 @@ class ToEBNF(Transformer):
             else:
                 output += "\"" + child + "\""
             output += " | "
-        return ("choice",output[:-3] + ")")
+        return ("choice", output[:-3] + ")")
 
     def rule(self, children):
         return "{}: {}".format(children[0], children[1])
@@ -53,7 +53,7 @@ class ToEBNF(Transformer):
     def constant_placeholder(self, children):
         return "\"" + " ".join(children) + "\""
 
-    def __call__(self,  production):
+    def __call__(self, production):
         return self.transform(production)
 
 
@@ -70,17 +70,20 @@ class GrammarBasedParser(object):
         as_ebnf = ""
         void_remover = DiscardVoid()
 
-        all_wildcard_lhs = [non_term for non_term, _ in rules.items() if isinstance(non_term, WildCard)]
+        all_wildcard_lhs = [non_term for non_term, _ in rules.items() if
+            isinstance(non_term, WildCard)]
         if len(all_wildcard_lhs) == 0:
-            all_rule_trees = [tree for _, trees in rules.items() for tree in trees]
+            all_rule_trees = [tree for _, trees in rules.items() for tree in
+                trees]
             wildcards = get_wildcards(all_rule_trees)
             for wildcard in wildcards:
-                rules[wildcard] = [Tree("expression", [wildcard.to_human_readable()])]
+                rules[wildcard] = [Tree("expression", [wildcard.
+                    to_human_readable()])]
         for non_term, productions in rules.items():
             # TODO: bake this into WildCard and NonTerminal types
             non_term_name = non_term.name.lower()
             if isinstance(non_term, WildCard):
-                non_term_name = "wild_"+non_term.to_snake_case()
+                non_term_name = "wild_" + non_term.to_snake_case()
             line = "!" + non_term_name + ": ("
             for production in productions:
                 void_remover.visit(production)
@@ -94,7 +97,7 @@ class GrammarBasedParser(object):
         %import common.WS
         %ignore WS
 """
-        self._parser = Lark(as_ebnf,  start='main')
+        self._parser = Lark(as_ebnf, start='main')
 
     def __call__(self, utterance):
         try:
@@ -110,8 +113,8 @@ class KNearestNeighborParser(object):
     A wrapper class that maps out-of-grammar sentences to their nearest neighbor by edit distance.
     """
 
-    def __init__(self, neighbors, k=3, distance_threshold=float("inf"), confidence_threshold=None,
-                 metric=editdistance.eval):
+    def __init__(self, neighbors, k=3, distance_threshold=float("inf"),
+        confidence_threshold=None, metric=editdistance.eval):
         assert (k > 0)
         self.neighbors = neighbors
         self.distance_threshold = distance_threshold
@@ -136,7 +139,8 @@ class KNearestNeighborParser(object):
             answer_votes[parse] = answer_votes.get(parse, 0) + 1
 
         # Reverse to get highest num votes first
-        answers_by_num_votes = sorted(answer_votes.items(), key=operator.itemgetter(1), reverse=True)
+        answers_by_num_votes = sorted(answer_votes.items(), key=operator.
+            itemgetter(1), reverse=True)
 
         # All of our neighbors must've been too far away
         if len(answers_by_num_votes) == 0:
@@ -148,6 +152,7 @@ class MappingParser(object):
     """
     Map parser output to some other value specified in a predefined lookup table
     """
+
     def __init__(self, parser, mapping):
         self.parser = parser
         self.mapping = mapping
@@ -161,6 +166,7 @@ class AnonymizingParser(object):
     """
     Pass input utterances through an anonymizer before parsing
     """
+
     def __init__(self, parser, anonymizer):
 
         self.parser = parser

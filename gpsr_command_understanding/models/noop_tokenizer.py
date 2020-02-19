@@ -36,14 +36,14 @@ class NoOpTokenizer(Tokenizer):
         pass
 
     @overrides
-    def tokenize(self, text: str) -> List[Token]:
+    def tokenize(self, text:
+        str) -> List[Token]:
         """
         Does whatever processing is required to convert a string of text into a sequence of tokens.
         At a minimum, this uses a ``WordSplitter`` to split words into text.  It may also do
         stemming or stopword removal, depending on the parameters given to the constructor.
         """
         return [Token(text)]
-
 
 """
     @overrides

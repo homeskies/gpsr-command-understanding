@@ -1,6 +1,7 @@
 import sys
 import os
 
+
 def main():
 
     f_in = open(sys.argv[1], 'r')

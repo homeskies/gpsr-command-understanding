@@ -25,8 +25,10 @@ class TokenSequenceAccuracy(Metric):
 
     @overrides
     def __call__(self,
-                 predictions: List[List[str]],
-                 gold_targets: List[List[str]]) -> None:
+                 predictions:
+        List[List[str]],
+                 gold_targets:
+        List[List[str]]) -> None:
         self._total_counts += len(predictions)
         for predicted_tokens, gold_tokens in zip(predictions, gold_targets):
             # If the whole sequence matches exactly, then we consider
@@ -35,7 +37,8 @@ class TokenSequenceAccuracy(Metric):
                 self._correct_counts += 1
 
     @overrides
-    def get_metric(self, reset: bool = False) -> Dict[str, float]:
+    def get_metric(self, reset:
+        bool=False) -> Dict[str, float]:
         if self._total_counts == 0:
             accuracy = 0.
         else:
@@ -66,8 +69,10 @@ class ParseValidity(Metric):
 
     @overrides
     def __call__(self,
-                 predictions: List[List[str]],
-                 gold_targets: List[List[str]]) -> None:
+                 predictions:
+        List[List[str]],
+                 gold_targets:
+        List[List[str]]) -> None:
         self._total_counts += len(predictions)
         for predicted_tokens in predictions:
             as_str = " ".join(predicted_tokens)
@@ -78,7 +83,8 @@ class ParseValidity(Metric):
                 continue
 
     @overrides
-    def get_metric(self, reset: bool = False) -> Dict[str, float]:
+    def get_metric(self, reset:
+        bool=False) -> Dict[str, float]:
         if self._total_counts == 0:
             accuracy = 0.
         else:
